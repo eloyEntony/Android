@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/mregister"
+        android:title="Реєстрація"
+        app:showAsAction="never" />
+    <item android:id="@+id/mhome"
+        android:title="Головна"
+        app:showAsAction="never" />
+</menu>
