@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,47 +31,32 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         LoadData();
-
-//        addListenerOnButton();
         addListenerOnSpinnerItemSelection();
     }
-
-
 
     public void GetData(View view){
         btnSubmit = (Button) findViewById(R.id.button);
         mEdit = findViewById(R.id.editTextTextPersonName);
 
-
-
         dropTo = (Spinner) findViewById(R.id.dropTo);
-        dropTo.getSelectedItem();
-
+        String tmp = dropTo.getSelectedItem().toString();
 
         dropFrom = (Spinner) findViewById(R.id.dropFrom);
-        dropFrom.getSelectedItem();
+        String tm = dropFrom.getSelectedItem().toString();
 
         double total = 0;
 
         for (Currency item : currencyList) {
-            if(item.getBase_ccy() == dropFrom.getSelectedItem())
-                total = Double.parseDouble(mEdit.getText().toString()) / item.getBuy();
-        }
-
-
-        btnSubmit.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(MainActivity.this,
-                                mEdit.getText().toString() + dropTo.getSelectedItem(), Toast.LENGTH_SHORT).show();
-                    }
+            if(tm.equals(item.getBase_ccy()))
+                if(tmp.equals(item.getCcy())){
+                    total = Double.parseDouble(mEdit.getText().toString()) / item.getBuy();
+                    break;
                 }
-        );
+        }
 
         TextView totalView = (TextView)findViewById(R.id.textView3);
         totalView.setText("You get: " + String.valueOf((double)Math.round(total * 100) / 100) + " " + dropTo.getSelectedItem());
-
+        //totalView.setText("You get: " + String.valueOf(total) + " " + dropTo.getSelectedItem());
     }
 
     public void LoadData(){
@@ -82,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(retrofit2.Call<List<Currency>> call, Response<List<Currency>> response) {
                         currencyList = response.body();
-                        Toast.makeText(intasnce, currencyList.get(0).getBase_ccy(), Toast.LENGTH_LONG).show();
-                        addItemsOnSpinner2();
+                        //Toast.makeText(intasnce, currencyList.get(0).getBase_ccy(), Toast.LENGTH_LONG).show();
+                        addItemsOnSpinner();
 
                     }
                     @Override
@@ -115,53 +101,48 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // add items into spinner dynamically
-    public void addItemsOnSpinner2() {
+    public void addItemsOnSpinner() {
 
         dropFrom = (Spinner) findViewById(R.id.dropFrom);
         List<String> list = new ArrayList<String>();
 
-        for (Currency item : currencyList) {
-            if(!list.contains(item.getBase_ccy()) && !list.contains(item.getCcy())){
-                list.add(item.getBase_ccy());
-                list.add(item.getCcy());
-            }
-        }
-
+        list.add("UAH");
+//        for (Currency item : currencyList) {
+//            if(!list.contains(item.getBase_ccy()) && !list.contains(item.getCcy())){
+//                list.add(item.getBase_ccy());
+//                list.add(item.getCcy());
+//            }
+//        }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dropFrom.setAdapter(dataAdapter);
 
         addItemsToDropTo(list);
-
-
     }
 
     public void addItemsToDropTo(List<String> list){
 //        dropTo = (Spinner) findViewById(R.id.dropTo);
         List<String> list2 = new ArrayList<String>();
+
+        list2.add("USD");
+        list2.add("EUR");
+//        switch (dropFrom.getSelectedItem().toString()){
+//            case "UAH":
+//                for(String item: list){
+//                    if(!"UAH".equals(item))
+//                        list2.add(item);
+//                }
+//                break;
+//            case "BTC":
+//                for(String item: list){
+//                    if(item == "USD")
+//                        list2.add(item);
+//                }
+//                break;
+//            default:
 //
-//        for (Currency item : currencyList) {
-//            list2.add(item.getCcy());
+//                break;
 //        }
-//
-
-        switch (dropFrom.getSelectedItem().toString()){
-            case "UAH":
-                for(String item: list){
-                    if(item != "UAH")
-                        list2.add(item);
-                }
-                break;
-            case "BTC":
-                for(String item: list){
-                    if(item == "USD")
-                        list2.add(item);
-                }
-                break;
-            default:
-
-                break;
-        }
 
         ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list2);
         dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

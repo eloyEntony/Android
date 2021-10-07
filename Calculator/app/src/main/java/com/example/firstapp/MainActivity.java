@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private Double firstOperant;
     private Double lastOperant;
     private String operant = "";
+    private Boolean ca = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,21 +38,21 @@ public class MainActivity extends AppCompatActivity {
 
     public void ClickBtn(View view){
 
-        MainActivity intasnce = this;
-        NetworkService.getInstance()
-                .getJSONApi()
-                .getPostWithID(1)
-                .enqueue(new Callback<Post>() {
-                    @Override
-                    public void onResponse(retrofit2.Call<Post> call, Response<Post> response) {
-                        Post post = response.body();
-                        Toast.makeText(intasnce,post.getBody(), Toast.LENGTH_LONG).show();
-                    }
-                    @Override
-                    public void onFailure(retrofit2.Call<Post> call, Throwable t) {
-                        t.printStackTrace();
-                    }
-                });
+//        MainActivity intasnce = this;
+//        NetworkService.getInstance()
+//                .getJSONApi()
+//                .getPostWithID(1)
+//                .enqueue(new Callback<Post>() {
+//                    @Override
+//                    public void onResponse(retrofit2.Call<Post> call, Response<Post> response) {
+//                        Post post = response.body();
+//                        Toast.makeText(intasnce,post.getBody(), Toast.LENGTH_LONG).show();
+//                    }
+//                    @Override
+//                    public void onFailure(retrofit2.Call<Post> call, Throwable t) {
+//                        t.printStackTrace();
+//                    }
+//                });
 
         Button btn = (Button) view;
         String type = btn.getText().toString();
@@ -61,12 +62,16 @@ public class MainActivity extends AppCompatActivity {
             case "-":
             case "*":
             case "/":
-                CheckOperant(type);
+                operant = type;
+                //CheckOperant(type);
+                firstOperant = Double.parseDouble(textView.getText().toString());
                 AddTotal(type);
+
                 break;
             case "=":
                 lastOperant = Double.parseDouble(textView.getText().toString());
-                totalCalc.append(textView.getText() + "=");
+//                totalCalc.append(textView.getText() + "=");
+                ca = true;
                 Calc(operant);
                 break;
             case "C":
@@ -103,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
                     totalCalc.setText("");
                     textView.setText((firstOperant /= lastOperant).toString());
                 }
-
                 break;
             default:
                 break;
@@ -111,19 +115,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void CheckOperant(String type){
-        if(operant == type){
-            lastOperant = Double.parseDouble(textView.getText().toString());
-            Calc(type);
-            firstOperant = Double.parseDouble(textView.getText().toString());
-            lastOperant=null;
-        }
-        if(operant!="" && type!=operant){
-            String tmp = totalCalc.getText().toString();
-            totalCalc.setText((tmp.substring(0, tmp.length() - 1)));
-        }
-        else{
-            firstOperant = Double.parseDouble(textView.getText().toString());
-        }
+
+
+        lastOperant = Double.parseDouble(textView.getText().toString());
+        Calc(type);
+        firstOperant = Double.parseDouble(textView.getText().toString());
+        lastOperant=null;
+
+
+//        if(operant == type && ca==false){
+//            lastOperant = Double.parseDouble(textView.getText().toString());
+//            Calc(type);
+//            firstOperant = Double.parseDouble(textView.getText().toString());
+//            lastOperant=null;
+//        }
+//
+//        if(type!=operant){
+//            Toast.makeText(this, "hi", Toast.LENGTH_LONG).show();
+//        }
+//        if(operant!="" && type!=operant){
+//            String tmp = totalCalc.getText().toString();
+//            totalCalc.setText((tmp.substring(0, tmp.length() - 1)));
+//        }
+//        else{
+//            firstOperant = Double.parseDouble(textView.getText().toString());
+//        }
     }
 
     private void Clear(){
