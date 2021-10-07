@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import com.example.myapplication.models.ImageModel;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -14,4 +16,7 @@ public interface JSONPlaceHolderApi {
 
     @POST("/api/Account/register")
     public Call<RegisterViewModel> registerUser(@Body RegisterViewModel data);
+
+    @GET("/Image/all")
+    public Call<List<ImageModel>> getImages();
 }

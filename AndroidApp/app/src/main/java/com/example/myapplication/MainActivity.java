@@ -10,8 +10,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.NetworkImageView;
+import com.example.myapplication.models.ImageModel;
+import com.example.myapplication.network.ImageRequester;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -21,13 +28,75 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     private EditText txtData;
+
+    private ImageRequester imageRequester;
+    private NetworkImageView myImage;
+
+    LinearLayout layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         txtData=findViewById(R.id.txtData);
 
+        String url = "https://upload.wikimedia.org/wikipedia/commons/7/78/Image.jpg";
+
+
+        imageRequester= ImageRequester.getInstance();
+        myImage = findViewById(R.id.myimg);
+        imageRequester.setImageFromUrl(myImage, url);
+
+        LoadImages();
+
+        layout = findViewById(R.id.layout);
+
     }
+
+    public void LoadImages(){
+
+        MainActivity intasnce = this;
+        NetworkService.getInstance()
+                .getJSONApi()
+                .getImages()
+                .enqueue(new Callback<List<ImageModel>>() {
+                    @Override
+                    public void onResponse(@NonNull Call<List<ImageModel>> call, @NonNull Response<List<ImageModel>> response) {
+                        List<ImageModel> images = response.body();
+//                        Toast.makeText(intasnce,post.get(0).getTemperatureC(), Toast.LENGTH_LONG).show();
+
+                        for(ImageModel item : images){
+                            NetworkImageView imageView = new NetworkImageView(MainActivity.this);
+
+                            imageRequester= ImageRequester.getInstance();
+
+                            imageRequester.setImageFromUrl(imageView, "http://10.0.2.2:5000/Images/"+ item.getName());
+
+                            addvieW(imageView, 200, 200);
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<List<ImageModel>> call, @NonNull Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
+
+
+    }
+    private void addvieW(NetworkImageView imageView, int width, int height) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);
+
+        // setting the margin in linearlayout
+        params.setMargins(0, 10, 0, 10);
+        imageView.setLayoutParams(params);
+
+        // adding the image in layout
+        layout.addView(imageView);
+
+    }
+
 
     public void ClickBtnHello(View view) {
         //Toast.makeText(this,txtData.getText(),Toast.LENGTH_LONG).show();
