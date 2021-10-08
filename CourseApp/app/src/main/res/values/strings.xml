@@ -6,4 +6,16 @@
     <string name="main_text">Main</string>
     <string name="logo_text1">Courses</string>
     <string name="logo_text2">App</string>
+    <string name="course">course</string>
+    <string name="start">Start course:</string>
+    <string name="level">Level course:</string>
+    <string name="course_desc">Программа обучения Джава – рассчитана
+на новичков в данной сфере.
+
+За программу вы изучите построение
+графических приложений под ПК,
+разработку веб сайтов на основе Java
+Spring Boot, изучите построение
+полноценных Андроид приложений
+и отлично изучите сам язык Джава!</string>
 </resources>

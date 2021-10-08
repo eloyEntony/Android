@@ -1,5 +1,6 @@
 package com.example.courseapp.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.courseapp.MainActivity;
 import com.example.courseapp.R;
 import com.example.courseapp.model.Category;
 
@@ -34,8 +36,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CategoryAdapter.CategoryViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.categoryTitle.setText(categories.get(position).getTitle());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.showCoursesByCategory(categories.get(position).getId());
+            }
+        });
     }
 
     @Override
