@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">CourseApp</string>
     <string name="sale_img">Sale</string>
-    <string name="contacts_text">Contact</string>
+    <string name="contacts_text">Login</string>
     <string name="about_text">About us</string>
     <string name="main_text">Main</string>
     <string name="logo_text1">Courses</string>

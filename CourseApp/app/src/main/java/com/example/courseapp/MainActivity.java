@@ -90,4 +90,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, OrderPage.class);
         startActivity(intent);
     }
+
+    public void openLogin(View view){
+        Intent intent = new Intent(this, Login_page.class);
+        startActivity(intent);
+    }
 }

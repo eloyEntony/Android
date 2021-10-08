@@ -10,5 +10,7 @@
     <color name="mainBgColor">#F6F6F6</color>
     <color name="asideBgColor">#EAEAEA</color>
     <color name="logo_text2">#EC6D6D</color>
+    <color name="bgLogin">#F5F5F5</color>
+    <color name="iconEmail">#F24E1E</color>
 
 </resources>

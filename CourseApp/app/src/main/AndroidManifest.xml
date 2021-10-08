@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CourseApp">
         <activity
+            android:name=".Login_page"
+            android:exported="true" />
+        <activity
             android:name=".OrderPage"
             android:exported="true" />
         <activity
