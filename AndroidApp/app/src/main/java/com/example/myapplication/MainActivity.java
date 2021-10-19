@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.NetworkImageView;
+import com.bumptech.glide.Glide;
 import com.example.myapplication.models.ImageModel;
 import com.example.myapplication.network.ImageRequester;
 
@@ -32,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageRequester imageRequester;
     private NetworkImageView myImage;
 
-    LinearLayout layout;
+    ImageView myImg;
+    //LinearLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +45,21 @@ public class MainActivity extends AppCompatActivity {
         String url = "https://upload.wikimedia.org/wikipedia/commons/7/78/Image.jpg";
 
 
-        imageRequester= ImageRequester.getInstance();
-        myImage = findViewById(R.id.myimg);
-        imageRequester.setImageFromUrl(myImage, url);
+//        imageRequester= ImageRequester.getInstance();
+//        myImg = findViewById(R.id.myimg);
+//        imageRequester.setImageFromUrl(myImage, url);
 
-        LoadImages();
+        //LoadImages();
 
-        layout = findViewById(R.id.layout);
+        //layout = findViewById(R.id.layout);
+
+        myImg = findViewById(R.id.myimg);
+
+        Glide.with(this)
+                .load(url)
+                .centerCrop()
+                .into(myImg);
+
 
     }
 
@@ -93,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         imageView.setLayoutParams(params);
 
         // adding the image in layout
-        layout.addView(imageView);
+        //layout.addView(imageView);
 
     }
 

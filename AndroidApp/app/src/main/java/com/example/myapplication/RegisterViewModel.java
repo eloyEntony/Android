@@ -6,26 +6,14 @@ import lombok.Data;
 public class RegisterViewModel {
 
     public String Email;
-    public String FirstName;
-    public String SecondName;
-    public String Phone;
+    public String Username;
     public String Password;
-    public String ConfirmPassword;
+    public String Photo;
 
-    public RegisterViewModel() {
-    }
-
-    public RegisterViewModel(String email, String firstName, String secondName, String phone, String password, String confirmPassword) {
+    public RegisterViewModel(String email, String username, String password, String photo) {
         Email = email;
-        FirstName = firstName;
-        SecondName = secondName;
-        Phone = phone;
+        Username = username;
         Password = password;
-        ConfirmPassword = confirmPassword;
-    }
-
-    public RegisterViewModel(String email, String password) {
-        Email = email;
-        Password = password;
+        Photo = photo;
     }
 }
