@@ -12,14 +12,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.bumptech.glide.Glide;
 import com.example.myapplication.models.ImageModel;
+import com.example.myapplication.models.Post;
 import com.example.myapplication.network.ImageRequester;
+import com.example.myapplication.services.NetworkService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -146,6 +146,10 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.mregister:
                 intent = new Intent(this, RegisterActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.mlogin:
+                intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
                 return true;
             default:

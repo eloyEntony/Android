@@ -1,5 +1,8 @@
-package com.example.myapplication;
+package com.example.myapplication.services;
 
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -9,9 +12,16 @@ public class NetworkService {
     private Retrofit mRetrofit;
 
     private NetworkService() {
+
+        OkHttpClient.Builder client = new OkHttpClient
+                .Builder()
+                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS);
+
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(client.build())
                 .build();
     }
 
@@ -24,4 +34,7 @@ public class NetworkService {
     public JSONPlaceHolderApi getJSONApi() {
         return mRetrofit.create(JSONPlaceHolderApi.class);
     }
+
+
+
 }

@@ -2,9 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/mregister"
-        android:title="Реєстрація"
+        android:title="Register"
+        app:showAsAction="never" />
+    <item android:id="@+id/mlogin"
+        android:title="Login"
         app:showAsAction="never" />
     <item android:id="@+id/mhome"
-        android:title="Головна"
+        android:title="Main"
         app:showAsAction="never" />
 </menu>

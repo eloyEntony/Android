@@ -12,23 +12,25 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.myapplication.application.HomeApplication;
 import com.example.myapplication.models.AuthenticateResponse;
+import com.example.myapplication.models.LoginDTOBadRequest;
+import com.example.myapplication.models.RegisterViewModel;
 import com.example.myapplication.models.UserImageModel;
+import com.example.myapplication.security.JwtSecurityService;
+import com.example.myapplication.services.NetworkService;
+import com.example.myapplication.services.SessionManager;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 import com.oginotihiro.cropview.CropView;
 
 import java.io.ByteArrayOutputStream;
-import java.text.CollationElementIterator;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -186,11 +188,17 @@ public class RegisterActivity extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+    private SessionManager session;
+
     public void RegisterUser(RegisterViewModel newUser){
 
         //RegisterViewModel newUser = new RegisterViewModel("string", "string","string","string");
 
         RegisterActivity intasnce = this;
+
+
+        session = new SessionManager(getApplicationContext());
+
 
         NetworkService.getInstance()
                 .getJSONApi()
@@ -203,8 +211,13 @@ public class RegisterActivity extends AppCompatActivity {
                         //Object obj = response.body();
                         //Toast.makeText(this, obj.toString(), Toast.LENGTH_LONG).show();
                         String token = response.body().getToken();
+                        //session.saveStringData("jwtToken", token);
 
+                        showMessage(token);
 
+                        JwtSecurityService jwtService = HomeApplication.getInstance();
+                        jwtService.saveJwtToken(token);
+//                        Intent intent = new Intent();
 
                         if(response.isSuccessful()) {
 //                            TokenDTO tokenDTO = response.body();
@@ -212,7 +225,7 @@ public class RegisterActivity extends AppCompatActivity {
 //                            ((NavigationHost) getActivity()).navigateTo(new ProductGridFragment(), false); // Navigate to the products Fragment
 //                            Log.e(TAG,"*************GOOD Request***********"+ tokenDTO.getToken());
                             //token = response.body().toString();
-                            showMessage(token);
+
                             //Toast.makeText(this, token, Toast.LENGTH_LONG).show();
                         }
                         else {
