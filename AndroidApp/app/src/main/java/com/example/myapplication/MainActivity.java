@@ -2,6 +2,9 @@ package com.example.myapplication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +18,10 @@ import android.widget.LinearLayout;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.bumptech.glide.Glide;
+import com.example.myapplication.adapter.UserAdapter;
 import com.example.myapplication.models.ImageModel;
 import com.example.myapplication.models.Post;
+import com.example.myapplication.models.User;
 import com.example.myapplication.network.ImageRequester;
 import com.example.myapplication.services.NetworkService;
 
@@ -34,15 +39,16 @@ public class MainActivity extends AppCompatActivity {
     private NetworkImageView myImage;
 
     ImageView myImg;
+    List<User> users;
     //LinearLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        txtData=findViewById(R.id.txtData);
+        //txtData=findViewById(R.id.txtData);
 
-        String url = "https://upload.wikimedia.org/wikipedia/commons/7/78/Image.jpg";
+        String url = "https://www.hootsuite.com/uploads/images/craft/components/Group-81.png";
 
 
 //        imageRequester= ImageRequester.getInstance();
@@ -57,9 +63,10 @@ public class MainActivity extends AppCompatActivity {
 
         Glide.with(this)
                 .load(url)
-                .centerCrop()
+                //.centerCrop()
                 .into(myImg);
 
+        LoadUsers();
 
     }
 
@@ -157,5 +164,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void LoadUsers(){
+        NetworkService.getInstance()
+                .getJSONApi()
+                .getUsers()
+                .enqueue(new Callback<List<User>>() {
+                    @Override
+                    public void onResponse(@NonNull Call<List<User>> call, @NonNull Response<List<User>> response) {
+                        users = response.body();
+
+                        RecyclerView recyclerView = findViewById(R.id.recycler);
+                        recyclerView.setHasFixedSize(true);
+                        recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this,1, LinearLayoutManager.VERTICAL, false));
+                        UserAdapter adapter = new UserAdapter(MainActivity.this, users);
+                        recyclerView.setAdapter(adapter);
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<List<User>> call, @NonNull Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
+    }
 
 }

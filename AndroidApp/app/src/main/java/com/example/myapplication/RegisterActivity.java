@@ -28,7 +28,12 @@ import com.example.myapplication.services.SessionManager;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.oginotihiro.cropview.CropView;
+
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 
@@ -166,7 +171,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 LoginDTOBadRequest result = gson.fromJson(json, LoginDTOBadRequest.class); // зробити супер мега вложений клас
                                 //errorMessage.setText(result.getInvalid());
 
-                                json = result.Email.get(0);
+                                //json = result.Email.get(0);
                             }
                             catch (Exception ex) {
                                 //errorMessage.setText(ex.getMessage());
@@ -210,16 +215,17 @@ public class RegisterActivity extends AppCompatActivity {
 //                        Toast.makeText(intasnce,post.get(0).getTemperatureC(), Toast.LENGTH_LONG).show();
                         //Object obj = response.body();
                         //Toast.makeText(this, obj.toString(), Toast.LENGTH_LONG).show();
-                        String token = response.body().getToken();
-                        //session.saveStringData("jwtToken", token);
 
-                        showMessage(token);
-
-                        JwtSecurityService jwtService = HomeApplication.getInstance();
-                        jwtService.saveJwtToken(token);
 //                        Intent intent = new Intent();
 
                         if(response.isSuccessful()) {
+                            String token = response.body().getToken();
+                            //session.saveStringData("jwtToken", token);
+
+                            showMessage(token);
+
+                            JwtSecurityService jwtService = HomeApplication.getInstance();
+                            jwtService.saveJwtToken(token);
 //                            TokenDTO tokenDTO = response.body();
 //                            ((JwtServiceHolder) getActivity()).SaveJWTToken(tokenDTO.getToken()); // Navigate to the register Fragment
 //                            ((NavigationHost) getActivity()).navigateTo(new ProductGridFragment(), false); // Navigate to the products Fragment
@@ -229,13 +235,16 @@ public class RegisterActivity extends AppCompatActivity {
                             //Toast.makeText(this, token, Toast.LENGTH_LONG).show();
                         }
                         else {
+                            String json;
                             try {
-                                String json = response.errorBody().string();
+                                json = response.errorBody().string();
                                 Gson gson = new Gson();
                                 LoginDTOBadRequest result = gson.fromJson(json, LoginDTOBadRequest.class); // зробити супер мега вложений клас
                                 //errorMessage.setText(result.getInvalid());
 
-                                json = result.Email.get(0);
+
+                                JsonObject jsonObjectResponse = new JsonParser().parse(json).getAsJsonObject();
+                                //LoginDTOBadRequest res = gson.fromJson(response.body().toString(),LoginDTOBadRequest.class);
                             }
                             catch (Exception ex) {
                                 //errorMessage.setText(ex.getMessage());

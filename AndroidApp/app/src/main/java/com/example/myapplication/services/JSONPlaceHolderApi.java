@@ -5,6 +5,7 @@ import com.example.myapplication.models.Post;
 import com.example.myapplication.models.AuthenticateResponse;
 import com.example.myapplication.models.ImageModel;
 import com.example.myapplication.models.RegisterViewModel;
+import com.example.myapplication.models.User;
 import com.example.myapplication.models.UserImageModel;
 
 import java.util.List;
@@ -26,6 +27,9 @@ public interface JSONPlaceHolderApi {
 
     @GET("/Image/all")
     public Call<List<ImageModel>> getImages();
+
+    @GET("/api/Account/all")
+    public Call<List<User>> getUsers();
 
     @POST("/Image/upload")
     public Call<UserImageModel> uploadImg(@Body UserImageModel userImageModel);

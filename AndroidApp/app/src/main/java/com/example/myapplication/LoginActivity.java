@@ -19,6 +19,10 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -57,13 +61,11 @@ public class LoginActivity extends AppCompatActivity {
                 .enqueue(new Callback<AuthenticateResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<AuthenticateResponse> call, @NonNull Response<AuthenticateResponse> response) {
-
-                        String token = response.body().getToken();
-                        showMessage(token);
-                        JwtSecurityService jwtService = HomeApplication.getInstance();
-                        jwtService.saveJwtToken(token);
-
                         if(response.isSuccessful()) {
+                            String token = response.body().getToken();
+                            showMessage(token);
+                            JwtSecurityService jwtService = HomeApplication.getInstance();
+                            jwtService.saveJwtToken(token);
                         }
                         else {
                             try {
@@ -72,7 +74,11 @@ public class LoginActivity extends AppCompatActivity {
                                 LoginDTOBadRequest result = gson.fromJson(json, LoginDTOBadRequest.class); // зробити супер мега вложений клас
                                 //errorMessage.setText(result.getInvalid());
 
-                                json = result.Email.get(0);
+                                //json = result.errors..get(0);
+
+                                    JSONObject jObjError = new JSONObject(response.errorBody().string());
+                                    //Toast.makeText(this, jObjError.getJSONObject("error").getString("message"), Toast.LENGTH_LONG).show();
+                                showMessage(jObjError.getJSONObject("error").getString("message"));
                             }
                             catch (Exception ex) {}
                         }
