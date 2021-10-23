@@ -192,18 +192,11 @@ public class RegisterActivity extends AppCompatActivity {
     public void showMessage(String message){
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
-
-    private SessionManager session;
-
     public void RegisterUser(RegisterViewModel newUser){
 
         //RegisterViewModel newUser = new RegisterViewModel("string", "string","string","string");
 
         RegisterActivity intasnce = this;
-
-
-        session = new SessionManager(getApplicationContext());
-
 
         NetworkService.getInstance()
                 .getJSONApi()

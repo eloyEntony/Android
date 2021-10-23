@@ -1,5 +1,7 @@
 package com.example.myapplication.services;
 
+import com.example.myapplication.security.JWTInterceptor;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -16,7 +18,8 @@ public class NetworkService {
         OkHttpClient.Builder client = new OkHttpClient
                 .Builder()
                 .readTimeout(60, TimeUnit.SECONDS)
-                .connectTimeout(60, TimeUnit.SECONDS);
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .addInterceptor(new JWTInterceptor());
 
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)

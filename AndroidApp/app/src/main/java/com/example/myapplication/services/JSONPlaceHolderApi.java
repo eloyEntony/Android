@@ -31,6 +31,12 @@ public interface JSONPlaceHolderApi {
     @GET("/api/Account/all")
     public Call<List<User>> getUsers();
 
+    @GET("/api/Account/myaccount")
+    public Call<User> getMyAccount();
+
+    @POST("/api/Account/myaccount/edit")
+    public Call<User> updateUserAccount(@Body User data);
+
     @POST("/Image/upload")
     public Call<UserImageModel> uploadImg(@Body UserImageModel userImageModel);
 }

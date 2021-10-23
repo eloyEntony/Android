@@ -116,23 +116,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void ClickBtnHello(View view) {
-        //Toast.makeText(this,txtData.getText(),Toast.LENGTH_LONG).show();
-        MainActivity intasnce = this;
-        NetworkService.getInstance()
-                .getJSONApi()
-                .getWeather()
-                .enqueue(new Callback<List<Post>>() {
-                    @Override
-                    public void onResponse(@NonNull Call<List<Post>> call, @NonNull Response<List<Post>> response) {
-                        List<Post> post = response.body();
-//                        Toast.makeText(intasnce,post.get(0).getTemperatureC(), Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull Call<List<Post>> call, @NonNull Throwable t) {
-                        t.printStackTrace();
-                    }
-                });
+        Intent intent = new Intent(this, EditAccount.class);
+        startActivity(intent);
 
     }
 
